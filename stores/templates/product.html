@@ -1,0 +1,496 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block content %}
+<div class="text-left">
+    <div class="row mb-4 mt-0 p-0 form-action align-items-center">
+        <div class="col-sm-1">
+            <button type="button" class="btn btn-light js-back-product">
+                <i class="fa fa-long-arrow-left"></i>
+            </button>
+        </div>
+        <div class="col-sm-11">
+            <h3 class="mb-0">{% if custom_price.id %}Edit{% else%}Add{% endif %} Custom Price</h3>
+        </div>
+    </div>
+    <div class="card">
+        <div class="card-body">
+            <div class="row mt-3">
+                <div class="col-sm-3">
+                    <img src="{{product.images.0.src}}" width="100%">
+                </div>
+                <div class="col-sm-6">
+                    <h5>{{product.title}}</h5>
+                    <p class="mb-0">Price: ${{product.price_range}}</p>
+                    <p>Type: {{product.product_type|default:'NA'}}</p>
+                </div>
+            </div>
+        </div>
+    </div>
+    <form class="customer-type-form">
+        {% csrf_token %}
+        <div class="customer-type-form-container">
+            {% for custom_price in custom_price.value %}
+            <div class="card each-block mt-0 mb-0 p-4" id="block-{{forloop.counter}}">
+                <div class="mb-2 row">
+                    <label for="customer_type-min-{{forloop.counter}}" class="col-sm-2 col-form-label">Quantity</label>
+                    <div class="col-sm-3">
+                        <div class="input-group">
+                            <input type="number" class="form-control quantity-box" id="price-min-{{forloop.counter}}"
+                                min="1" max="999" step="1" value="{{custom_price.min}}" required="required">
+                        </div>
+                    </div>
+                    <div class="col-sm-7 text-right">
+                        <button class="btn js-remove-block" data-block="block-{{forloop.counter}}" type="button">
+                            <i class="fa fa fa-trash-o"></i>
+                        </button>
+                    </div>
+                </div>
+                <div class="mb-1 row">
+                    <label for="price-{{forloop.counter}}" class="col-sm-2 col-form-label">Price</label>
+                    <div class="col-sm-3">
+                        <div class="input-group">
+                            <div class="input-group-prepend">
+                                <span class="input-group-text">$</span>
+                            </div>
+                            <input type="number" class="form-control price-box" id="price-{{forloop.counter}}" min="0"
+                                max="{{product.price_range}}" step="0.01" value="{{custom_price.price|floatformat:2}}"
+                                required="required">
+                        </div>
+                    </div>
+                </div>
+            </div>
+            {% empty %}
+            <div class="card each-block mt-0 mb-0 p-4" id="empty">
+                <div class="mb-2 row align-items-center">
+                    <div class="col-8">
+                        <h6>Empty custom price list</h6>
+                        <p>"{{product.title}}" has no custom prices yet, but you can create them</p>
+                        <p>
+                            <button class="btn btn-default add-new" type="button" id="add-new">
+                                <span class="Polaris-Button__Content">
+                                    <span class="Polaris-Button__Text">+ Add New</span>
+                                </span>
+                            </button>
+                        </p>
+                    </div>
+                    <div class="col-4 text-right">
+                        <img src="https://app.metafields.guru/img/code.svg" width="120px">
+                    </div>
+                </div>
+            </div>
+            {% endfor %}
+        </div>
+        <div class="row form-action mt-4 p-0">
+            <div class="col-sm-6">
+                <button class="btn btn-default add-new" type="button" id="add-new">
+                    <span class="Polaris-Button__Content">
+                        <span class="Polaris-Button__Text">+ Add New</span>
+                    </span>
+                </button>
+                {% if custom_price.id %}
+                <button class="btn btn-outline-danger" type="button" id="delete-prices">
+                    <span class="Polaris-Button__Content">
+                        <span class="Polaris-Button__Text">Delete Prices</span>
+                    </span>
+                </button>
+                {% endif %}
+            </div>
+            <div class="col-sm-6 text-right">
+                {% if not custom_price.id %}
+                <button class="btn btn-outline-danger" type="button" id="cancel-prices">
+                    <span class="Polaris-Button__Content">
+                        <span class="Polaris-Button__Text">Cancel</span>
+                    </span>
+                </button>
+                {% endif %}
+                <button class="btn btn-primary" type="submit" id="form-submit" {% if not custom_price.value %}disabled{%
+                    endif%}>
+                    <span class="Polaris-Button__Content">
+                        <span class="Polaris-Button__Text">Save</span>
+                    </span>
+                </button>
+            </div>
+        </div>
+    </form>
+</div>
+{% endblock %}
+{% block extrahead %}
+<!-- <script type="text/javascript">
+        const NEW_PRICE_TEMPLATE = `<div class="card each-block mt-0 mb-0 p-4" id="block-"counter"">
+                    <div class="mb-2 row">
+                        <label for="price-min-"counter"" class="col-sm-2 col-form-label">Quantity</label>
+                        <div class="col-sm-3">
+                            <div class="input-group">
+                                <input type="number" class="form-control quantity-box" id="price-min-"counter"" min="1" max="999" step="1" value="1" required="required">
+                            </div>
+                        </div>
+                        <div class="col-sm-7 text-right">
+                            <button class="btn js-remove-block" data-block="block-"counter"" type="button">
+                                <i class="fa fa fa-trash-o"></i>
+                            </button>
+                        </div>
+                    </div>
+                    <div class="mb-2 row">
+                        <label for="price-"counter"" class="col-sm-2 col-form-label">Price</label>
+                        <div class="col-sm-3">
+                            <div class="input-group">
+                                <div class="input-group-prepend">
+                                    <span class="input-group-text">$</span>
+                                </div>
+                                <input type="number" class="form-control price-box" id="price-"counter"" min="0" max="{{product.price_range}}" step="0.01" value="{{product.price_range}}" required>
+                            </div>
+                        </div>
+                    </div>
+                </div>`
+
+        const EMPTY_STATE = document.querySelector('#empty')
+
+        function addNew() {
+            const counter = $('.each-block').length + 1
+            const new_template = NEW_PRICE_TEMPLATE.replace(/"counter"/g, counter)
+            $('#empty').remove()
+            $('.customer-type-form-container').append(new_template)
+            if ($('.each-block').length === 30) {
+                $('.add-new').attr('disabled', true)
+            } else if ($('.each-block').length === 1) {
+                $('.js-remove-block').hide()
+            } else {
+                $('.js-remove-block').show()
+            }
+            $('#form-submit').removeAttr('disabled')
+            reinilizeEvents()
+        }
+
+        function reinilizeEvents () {
+            document.querySelectorAll('.each-block').forEach(function (node, index) {
+                const counter = index + 1
+                node.id = `block-${counter}`
+                let element = $(node).find('.js-remove-block')
+                element.attr('data-block', node.id)
+                element.parent().html(element.parent().html())
+            })
+            $('.js-remove-block').on('click', removeBlock)
+        }
+
+        function removeBlock () {
+            $(`#${this.dataset.block}`).remove()
+            reinilizeEvents()
+
+            if ($('.each-block').length === 1) {
+                $('.js-remove-block').hide()
+            } else {
+                $('.js-remove-block').show()
+            }
+            if ($('.each-block').length === 0) {
+                $('#form-submit').attr('disabled', true)
+            }
+            $('.add-new').attr('disabled', false)
+            // Need to reinilize ids
+        }
+
+        $('.add-new').on('click', addNew)
+        $('.js-remove-block').on('click', removeBlock)
+
+        if ($('.each-block').length === 30) {
+            $('.add-new').attr('disabled', true)
+        }
+
+        function submitForm(e) {
+            e.preventDefault()
+            var payload = {
+                metafield_id: {% if custom_price.id %}{{ custom_price.id | safe }}{% else %}null{% endif%},
+                value: [],
+                product_id: {{product.id}}
+            }
+            var error = false
+            const nodes = document.querySelectorAll('.each-block')
+            nodes.forEach(function (node, index) {
+                let min = parseInt($(node).find('input.quantity-box').val())
+                nextObj = nodes[index + 1]
+                let max = 999
+                if (nextObj) {
+                    max = parseInt($(nextObj).find('input.quantity-box').val()) - 1
+                    if (max < min && !error) {
+                        error = true
+                        alert("Invalid quantity. Please verify your's input.")
+                    }
+                }
+                payload.value.push({
+                    min: min,
+                    max: max,
+                    price: parseFloat($(node).find('input.price-box').val()) * 100
+                })
+            })
+            if (error) {
+                return false;
+            }
+            $(this).find('button[type="submit"]').attr('disabled', true)
+            $(this).find('button[type="submit"]').html('<i class="fa fa-spinner fa-spin"></i> updating prices')
+            $.ajax({
+                url: '/product/update/', 
+                type: "POST",
+                dataType: "json",
+                contentType: "application/json; charset=utf-8",
+                data: JSON.stringify(payload),
+                success: function (result) {
+                    // when call is sucessfull
+                    window.location.reload()
+                },
+                error: function (err) {
+                    window.location.reload()
+                    // check the err for error details
+                }
+            }); // ajax call closing
+            return false;
+        }
+
+        function csrfSafeMethod(method) {
+            // these HTTP methods do not require CSRF protection
+            return (/^(GET|HEAD|OPTIONS|TRACE)$/.test(method));
+        }
+
+        $( document ).ready(function() {
+            $.ajaxSetup({
+                beforeSend: function (xhr, settings) {
+                    if (!csrfSafeMethod(settings.type) && !this.crossDomain) {
+                        xhr.setRequestHeader("X-CSRFToken", document.querySelector('input[name="csrfmiddlewaretoken"]').value);
+                    }
+                }
+            });
+            $('.customer-type-form').on('submit', submitForm)
+            {% if custom_price.id %}
+                $('#delete-prices').on('click', function () {
+                    // Remove Metafield and Redirect back to product page
+                    $(this).html('<i class="fa fa-spinner fa-spin"></i> Deleting..').attr('disabled', true)
+                    $.ajax({
+                        url: '/product/delete/', 
+                        type: "POST",
+                        dataType: "json",
+                        contentType: "application/json; charset=utf-8",
+                        data: JSON.stringify({
+                            metafield_id: {{custom_price.id}}
+                        }),
+                        success: function (result) {
+                            ShopifyApp.redirect('/products/{{product.id}}')
+                        },
+                        error: function (err) {
+                            window.location.reload()
+                        }
+                    });
+                })
+            {% else %}
+                $('#cancel-prices').on('click', function () {
+                    ShopifyApp.redirect('/products/{{product.id}}')
+                })
+            {% endif %}
+            if ($('.each-block').length === 1) {
+                $('.js-remove-block').hide()
+            } else {
+                $('.js-remove-block').show()
+            }
+
+            $('.js-back-product').on('click', function () {
+                ShopifyApp.redirect('/products/{{product.id}}')
+            })
+        })
+    </script> -->
+<script type="module">
+    import { app } from "./appBridgeConfig.js"
+    import { Redirect } from "./appBridgeConfig.js"
+    const NEW_PRICE_TEMPLATE = `<div class="card each-block mt-0 mb-0 p-4" id="block-"counter"">
+                    <div class="mb-2 row">
+                        <label for="price-min-"counter"" class="col-sm-2 col-form-label">Quantity</label>
+                        <div class="col-sm-3">
+                            <div class="input-group">
+                                <input type="number" class="form-control quantity-box" id="price-min-"counter"" min="1" max="999" step="1" value="1" required="required">
+                            </div>
+                        </div>
+                        <div class="col-sm-7 text-right">
+                            <button class="btn js-remove-block" data-block="block-"counter"" type="button">
+                                <i class="fa fa fa-trash-o"></i>
+                            </button>
+                        </div>
+                    </div>
+                    <div class="mb-2 row">
+                        <label for="price-"counter"" class="col-sm-2 col-form-label">Price</label>
+                        <div class="col-sm-3">
+                            <div class="input-group">
+                                <div class="input-group-prepend">
+                                    <span class="input-group-text">$</span>
+                                </div>
+                                <input type="number" class="form-control price-box" id="price-"counter"" min="0" max="{{product.price_range}}" step="0.01" value="{{product.price_range}}" required>
+                            </div>
+                        </div>
+                    </div>
+                </div>`
+
+    const EMPTY_STATE = document.querySelector('#empty')
+
+    function addNew() {
+        const counter = $('.each-block').length + 1
+        const new_template = NEW_PRICE_TEMPLATE.replace(/"counter"/g, counter)
+        $('#empty').remove()
+        $('.customer-type-form-container').append(new_template)
+        if ($('.each-block').length === 30) {
+            $('.add-new').attr('disabled', true)
+        } else if ($('.each-block').length === 1) {
+            $('.js-remove-block').hide()
+        } else {
+            $('.js-remove-block').show()
+        }
+        $('#form-submit').removeAttr('disabled')
+        reinilizeEvents()
+    }
+
+    function reinilizeEvents() {
+        document.querySelectorAll('.each-block').forEach(function (node, index) {
+            const counter = index + 1
+            node.id = `block-${counter}`
+            let element = $(node).find('.js-remove-block')
+            element.attr('data-block', node.id)
+            element.parent().html(element.parent().html())
+        })
+        $('.js-remove-block').on('click', removeBlock)
+    }
+
+    function removeBlock() {
+        $(`#${this.dataset.block}`).remove()
+        reinilizeEvents()
+
+        if ($('.each-block').length === 1) {
+            $('.js-remove-block').hide()
+        } else {
+            $('.js-remove-block').show()
+        }
+        if ($('.each-block').length === 0) {
+            $('#form-submit').attr('disabled', true)
+        }
+        $('.add-new').attr('disabled', false)
+        // Need to reinilize ids
+    }
+
+    $('.add-new').on('click', addNew)
+    $('.js-remove-block').on('click', removeBlock)
+
+    if ($('.each-block').length === 30) {
+        $('.add-new').attr('disabled', true)
+    }
+
+    function submitForm(e) {
+        e.preventDefault()
+        var payload = {
+            metafield_id: {% if custom_price.id %}{{ custom_price.id | safe
+    }}{% else %} null{% endif %},
+    value: [],
+        product_id: { { product.id } }
+            }
+    var error = false
+    const nodes = document.querySelectorAll('.each-block')
+    nodes.forEach(function (node, index) {
+        let min = parseInt($(node).find('input.quantity-box').val())
+        nextObj = nodes[index + 1]
+        let max = 999
+        if (nextObj) {
+            max = parseInt($(nextObj).find('input.quantity-box').val()) - 1
+            if (max < min && !error) {
+                error = true
+                alert("Invalid quantity. Please verify your's input.")
+            }
+        }
+        payload.value.push({
+            min: min,
+            max: max,
+            price: parseFloat($(node).find('input.price-box').val()) * 100
+        })
+    })
+    if (error) {
+        return false;
+    }
+    $(this).find('button[type="submit"]').attr('disabled', true)
+    $(this).find('button[type="submit"]').html('<i class="fa fa-spinner fa-spin"></i> updating prices')
+    $.ajax({
+        url: '/product/update/',
+        type: "POST",
+        dataType: "json",
+        contentType: "application/json; charset=utf-8",
+        data: JSON.stringify(payload),
+        success: function (result) {
+            // when call is sucessfull
+            window.location.reload()
+        },
+        error: function (err) {
+            window.location.reload()
+            // check the err for error details
+        }
+    }); // ajax call closing
+    return false;
+        }
+
+    function csrfSafeMethod(method) {
+        // these HTTP methods do not require CSRF protection
+        return (/^(GET|HEAD|OPTIONS|TRACE)$/.test(method));
+    }
+
+    $(document).ready(function () {
+        $.ajaxSetup({
+            beforeSend: function (xhr, settings) {
+                if (!csrfSafeMethod(settings.type) && !this.crossDomain) {
+                    xhr.setRequestHeader("X-CSRFToken", document.querySelector('input[name="csrfmiddlewaretoken"]').value);
+                }
+            }
+        });
+        $('.customer-type-form').on('submit', submitForm)
+        {% if custom_price.id %}
+        $('#delete-prices').on('click', function () {
+            // Remove Metafield and Redirect back to product page
+            $(this).html('<i class="fa fa-spinner fa-spin"></i> Deleting..').attr('disabled', true)
+            $.ajax({
+                url: '/product/delete/',
+                type: "POST",
+                dataType: "json",
+                contentType: "application/json; charset=utf-8",
+                data: JSON.stringify({
+                    metafield_id: {{ custom_price.id }}
+                        }),
+            success: function (result) {
+                // ShopifyApp.redirect('/products/{{product.id}}')
+                app.dispatch(
+            Redirect.toRemote({
+                url: '/products/{{product.id}}'
+            })
+        );
+            },
+        error: function (err) {
+            window.location.reload()
+        }
+    });
+                })
+    {% else %}
+    $('#cancel-prices').on('click', function () {
+        // ShopifyApp.redirect('/products/{{product.id}}')
+        app.dispatch(
+            Redirect.toRemote({
+                url: '/products/{{product.id}}'
+            })
+        );
+        
+    })
+    {% endif %}
+    if ($('.each-block').length === 1) {
+        $('.js-remove-block').hide()
+    } else {
+        $('.js-remove-block').show()
+    }
+
+    $('.js-back-product').on('click', function () {
+        // ShopifyApp.redirect('/products/{{product.id}}')
+        app.dispatch(
+            Redirect.toRemote({
+                url: '/products/{{product.id}}'
+            })
+        );
+    })
+        })
+</script>
+{% endblock %}

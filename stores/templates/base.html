@@ -1,0 +1,143 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
+    <title>Custom Price Editor</title>
+    <script type="text/javascript" src="https://cdn.shopify.com/s/assets/external/app.js"></script>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+    <script src="https://unpkg.com/@shopify/app-bridge@3"></script>
+    <script src="https://unpkg.com/@shopify/app-bridge-utils@3"></script>
+    <script src="./appBridgeConfig.js"></script>
+
+    <!-- <script type="text/javascript">
+        ShopifyApp.init({
+            apiKey: '{{ SHOPIFY_APP_API_KEY }}',
+            shopOrigin: 'https://{{ user.myshopify_domain }}'
+        });
+        ShopifyApp.ready(function () {
+            ShopifyApp.Bar.initialize({
+                title: '{{ SHOPIFY_APP_NAME }}',
+                buttons: {}
+            });
+        });
+    </script> -->
+
+    
+
+
+
+    <style type="text/css">
+        html,
+        body,
+        .jumbotron {
+            width: 100%;
+            height: 100%;
+            letter-spacing: 0.6px;
+            font-family: -apple-system, BlinkMacSystemFont, San Francisco, Segoe UI, Roboto, Helvetica Neue, sans-serif;
+            background: #e9ecef;
+        }
+
+        .jumbotron {
+            padding: 2rem 5rem;
+            height: auto;
+        }
+
+        .btn-primary,
+        .btn-primary:hover,
+        .btn-primary:not(:disabled):not(.disabled).active,
+        .btn-primary:not(:disabled):not(.disabled):active,
+        .show>.btn-primary.dropdown-toggle,
+        .btn-primary:focus,
+        .btn-primary.disabled,
+        .btn-primary:disabled {
+            background: rgb(0 128 96);
+            color: white;
+            border-color: rgb(0 128 96);
+        }
+
+        .card {
+            margin: 10px;
+        }
+
+        .each-block {
+            border-bottom: 1px solid rgb(201 204 207);
+        }
+
+        .btn:focus,
+        input,
+        select {
+            box-shadow: unset;
+        }
+
+        .form-action {
+            margin: -4px;
+        }
+
+        .btn-default {
+            background: white;
+            outline: .1rem solid transparent;
+            border: 1px solid rgb(201 204 207);
+        }
+
+        .btn-default:hover,
+        .btn-default:active {
+            background: rgb(246 246 247);
+        }
+
+        .js-remove-block {
+            float: right;
+        }
+
+        h6 {
+            font-size: 1rem;
+        }
+
+        p {
+            font-size: 0.8rem;
+        }
+
+        .m-10px {
+            margin: 10px;
+        }
+
+        .form-action .btn-light {
+            color: rgb(109 113 117);
+            background: transparent;
+            border: 1px solid rgb(186 191 195);
+            padding: .275rem .75rem;
+        }
+
+        .form-action .btn-light:hover {
+            color: #212529;
+            background-color: #e2e6ea;
+            /* border-color: #dae0e5 !important; */
+        }
+
+        .each-location-container {
+            padding: 1.2rem 0;
+        }
+
+        .each-location-container:not(:last-child) {
+            border-bottom: 1px solid #dae0e5;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="jumbotron">
+        <center class="container" style="max-width: 800px">
+            {% block content %}
+            {% endblock %}
+        </center>
+    </div>
+</body>
+{% block extrahead %}
+{% endblock %}
+
+</html>
