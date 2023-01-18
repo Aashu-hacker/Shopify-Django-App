@@ -38,7 +38,7 @@
     document.getElementById('view-all-products').onclick = function () {
         // console.log(app, Redirect,redirect, "pppp")  
         console.log('redirect', redirect);
-        redirect.app.dispatch(Redirect.Action.APP, '/products');
+        redirect.dispatch(Redirect.Action.APP, '/products');
     };
 </script>
 {% endblock %}
