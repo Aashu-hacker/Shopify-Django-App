@@ -36,12 +36,8 @@
 
 <script type="text/javascript">
     document.getElementById('view-all-products').onclick = function () {
-        console.log(app, Redirect, "pppp")  
-        app.dispatch(
-            Redirect.toRemote({
-                url: 'https://google.com'
-            })
-        );
+        console.log(app, Redirect,redirect, "pppp")  
+        redirect.dispatch(Redirect.Action.REMOTE, '/products');
     };
 </script>
 {% endblock %}
