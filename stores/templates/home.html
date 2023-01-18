@@ -18,7 +18,7 @@
                         <!-- <span class="Polaris-Button__Content">
                             <span class="Polaris-Button__Text">View Products</span>
                         </span> -->
-                        View Products 
+                        View Products
                     </button>
                 </div>
             </div>
@@ -33,11 +33,14 @@
             ShopifyApp.redirect('/products')
         };
     </script> -->
-<script>
+<!-- <script type="module">
     import { app } from "./appBridgeConfig.js"
     import { Redirect } from "./appBridgeConfig.js"
+
+</script> -->
+<script type="text/javascript" src="./appBridgeConfig.js">
     document.getElementById('view-all-products').onclick = function () {
-        console.log(app,Redirect,"pppp")
+        console.log(app, Redirect, "pppp")  
         app.dispatch(
             Redirect.toRemote({
                 url: '/products'
