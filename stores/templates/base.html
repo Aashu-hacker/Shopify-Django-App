@@ -15,18 +15,19 @@
     <script src="https://unpkg.com/@shopify/app-bridge-utils@3"></script>
     <!-- <script src="./appBridgeConfig.js"></script> -->
 
-    <script type="module">
-        import { app } from "./appBridgeConfig.js"
-        import { Redirect } from "./appBridgeConfig.js"
-        // document.getElementById('view-all-products').onclick = function () {
-        //     console.log(app, Redirect, "pppp")
-        //     app.dispatch(
-        //         Redirect.toRemote({
-        //             url: '/products'
-        //         })
-        //     );
-        // };
-        console.log("dd",app)
+    <script type="text/javascript">
+        var AppBridge = window['app-bridge'];
+        var AppBridgeUtils = window['app-bridge-utils'];
+        var actions = AppBridge.actions;
+        var Redirect = actions.Redirect;
+        const config = {
+            // The client ID provided for your application in the Partner Dashboard.
+            apiKey: "d97774d41e779fc96ad35d85d8f256ce",
+            // The host of the specific shop that's embedding your app. This value is provided by Shopify as a URL query parameter that's appended to your application URL when your app is loaded inside the Shopify admin.
+            host: new URLSearchParams(location.search).get("host"),
+            forceRedirect: true
+        };
+        const app = AppBridge.createApp(config);
     </script>
 
     <style type="text/css">
