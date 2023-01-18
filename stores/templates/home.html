@@ -36,7 +36,8 @@
 
 <script type="text/javascript">
     document.getElementById('view-all-products').onclick = function () {
-        console.log(app, Redirect,redirect, "pppp")  
+        // console.log(app, Redirect,redirect, "pppp")  
+        console.log('redirect', redirect);
         redirect.dispatch(Redirect.Action.REMOTE, 'https://test-heat-custom.herokuapp.com/products');
     };
 </script>
