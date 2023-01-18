@@ -38,7 +38,7 @@
     document.getElementById('view-all-products').onclick = function () {
         // console.log(app, Redirect,redirect, "pppp")  
         console.log('redirect', redirect);
-        redirect.dispatch(Redirect.Action.REMOTE, 'https://test-heat-custom.herokuapp.com/products');
+        redirect.app.dispatch(Redirect.Action.REMOTE, '/products');
     };
 </script>
 {% endblock %}
