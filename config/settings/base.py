@@ -12,6 +12,7 @@ https://docs.djangoproject.com/en/3.2/ref/settings/
 
 from pathlib import Path
 import os
+import django_heroku
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 ROOT_DIR = Path(__file__).resolve(strict=True).parent.parent.parent
@@ -187,3 +188,5 @@ CELERY_BROKER_URL = os.environ.get('REDIS_URL', 'redis://localhost:6379/0')
 
 CELERY_BROKER_HEARTBEAT = None
 CELERY_BROKER_CONNECTION_TIMEOUT = 30
+
+django_heroku.settings(locals())
