@@ -16,6 +16,7 @@
     <!-- <script src="./appBridgeConfig.js"></script> -->
 
     <script type="text/javascript">
+        console.log('new URLSearchParams(location.search).get("host")', new URLSearchParams(location.search).get("host"));
         var AppBridge = window['app-bridge'];
         var AppBridgeUtils = window['app-bridge-utils'];
         var actions = AppBridge.actions;
