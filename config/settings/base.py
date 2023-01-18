@@ -153,7 +153,8 @@ STATICFILES_FINDERS = [
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
 # Configure Shopify Application settings
-SHOPIFY_APP_NAME = 'Custom Price'
+# SHOPIFY_APP_NAME = 'Custom Price'
+SHOPIFY_APP_NAME = 'test-heat-custom'
 SHOPIFY_APP_API_SCOPE = ['write_products', 'write_customers', 'read_inventory', 'write_orders']
 # Find API version to pin at https://help.shopify.com/en/api/versioning
 SHOPIFY_APP_API_VERSION = "2022-01"
