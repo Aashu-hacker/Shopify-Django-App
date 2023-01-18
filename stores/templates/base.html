@@ -15,8 +15,17 @@
     <script src="https://unpkg.com/@shopify/app-bridge-utils@3"></script>
     <script src="./appBridgeConfig.js"></script>
 
-    <script>
-        console.log("ppp",app)
+    <script type="module">
+        import { app } from "./appBridgeConfig.js"
+        import { Redirect } from "./appBridgeConfig.js"
+        document.getElementById('view-all-products').onclick = function () {
+            console.log(app, Redirect, "pppp")
+            app.dispatch(
+                Redirect.toRemote({
+                    url: '/products'
+                })
+            );
+        };
     </script>
 
     <style type="text/css">
