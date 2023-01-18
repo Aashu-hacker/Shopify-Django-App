@@ -1,7 +1,7 @@
 var AppBridge = window['app-bridge'];
 var AppBridgeUtils = window['app-bridge-utils'];
 var actions = AppBridge.actions;
-export var Redirect = actions.Redirect;
+// export var Redirect = actions.Redirect;
 const config = {
     // The client ID provided for your application in the Partner Dashboard.
     apiKey: "api_key",
