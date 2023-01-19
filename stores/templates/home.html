@@ -39,7 +39,7 @@
         // console.log(app, Redirect,redirect, "pppp")  
         console.log('redirect', redirect.app);
         console.log("Redirect.Action.ADMIN_PATH",Redirect.Action.ADMIN_PATH)
-        redirect.app.dispatch(Redirect.Action.ADMIN_PATH, '/products');
+        redirect.dispatch(Redirect.Action.ADMIN_PATH, '/products');
     };
 </script>
 {% endblock %}
