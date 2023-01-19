@@ -28,7 +28,7 @@
             apiKey: "4ab575e36e8a962efad728740c3edccb",
             // The host of the specific shop that's embedding your app. This value is provided by Shopify as a URL query parameter that's appended to your application URL when your app is loaded inside the Shopify admin.
             // host: new URLSearchParams(location.search).get("host"),
-            host: 'b2ZmZXItY291bnRkb3duLXN0b3JlLm15c2hvcGlmeS5jb20vYWRtaW4',
+            host: window.btoa(location.host + '/admin'),
             forceRedirect: true
         };
         const app = AppBridge.createApp(config);
