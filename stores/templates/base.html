@@ -17,7 +17,7 @@
 
     <script type="text/javascript">
         console.log('location', window.location);
-        console.log('new URLSearchParams(location.search).get("host")', new URLSearchParams(location.search).get("host"));
+        console.log('new URLSearchParams(location.search).get("host")', document.getElementsByTagName("iframe")[0].src);
         var AppBridge = window['app-bridge'];
         var AppBridgeUtils = window['app-bridge-utils'];
         var actions = AppBridge.actions;
